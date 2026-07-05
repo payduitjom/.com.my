@@ -54,15 +54,15 @@ export default function BerjayaPage() {
           className="mx-auto h-9 w-auto"
         />
 
-        <div className="mx-auto mt-8 flex h-20 w-20 items-center justify-center rounded-full bg-green/10">
-          <CheckCircle2 className="h-11 w-11 text-green" />
+        <div className="mx-auto mt-8 flex h-20 w-20 items-center justify-center rounded-full bg-green/15 ring-2 ring-green/30">
+          <CheckCircle2 className="h-10 w-10 text-green" strokeWidth={2.5} />
         </div>
 
         <h1 className="mt-6 text-2xl font-extrabold text-foreground">
           Bayaran Berjaya!
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Terima kasih. Bayaran balik pinjaman anda telah diterima dan disahkan.
+          Kami akan semak permohonan bayaran balik anda dalam masa 1 hingga 2 hari bekerja. Kami akan memaklumkan kepada anda selepas semakan ini berjaya melalui email milik anda.
         </p>
 
         <dl className="mt-7 space-y-3 rounded-2xl bg-secondary p-5 text-left">
