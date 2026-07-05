@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { ChevronDown, LogIn, Menu, X } from 'lucide-react'
 
 const navLinks = [
-  { label: 'Mohon Sekarang', href: '#mohon' },
+  { label: 'Bayar Balik', href: '#mohon' },
   { label: 'Cara Berfungsi', href: '#cara' },
-  { label: 'Pakej Kami', href: '#pakej' },
+  { label: 'Kaedah Bayaran', href: '#pakej' },
   { label: 'Soalan Lazim', href: '#soalan' },
 ]
 
@@ -59,19 +60,15 @@ export function SiteHeader() {
             Bahasa Malaysia
             <ChevronDown className="h-4 w-4" />
           </button>
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded-full border border-border px-5 py-2 text-sm font-semibold text-navy transition-colors hover:border-orange hover:text-orange"
-          >
-            <LogIn className="h-4 w-4" />
-            Log Masuk
-          </button>
-          <a
-            href="#mohon"
+          <Link
+            href="/login"
             className="rounded-full bg-orange px-5 py-2 text-sm font-bold text-navy shadow-sm transition-transform hover:scale-[1.03]"
           >
-            Mohon Sekarang
-          </a>
+            <span className="flex items-center gap-2">
+              <LogIn className="h-4 w-4" />
+              Log Masuk
+            </span>
+          </Link>
         </div>
 
         <button
@@ -98,20 +95,14 @@ export function SiteHeader() {
                 {link.label}
               </a>
             ))}
-            <button
-              type="button"
-              className="mt-1 flex items-center justify-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-navy"
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
+              className="mt-1 flex items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-bold text-navy"
             >
               <LogIn className="h-4 w-4" />
               Log Masuk
-            </button>
-            <a
-              href="#mohon"
-              onClick={() => setOpen(false)}
-              className="flex items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-bold text-navy"
-            >
-              Mohon Sekarang
-            </a>
+            </Link>
           </div>
         </div>
       )}

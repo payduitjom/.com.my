@@ -1,34 +1,28 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import {
   ArrowRight,
   CheckCircle2,
+  LogIn,
   PlayCircle,
   ShieldCheck,
   Star,
   Users,
+  Wallet,
   Zap,
 } from 'lucide-react'
-
-const presets = [
-  { label: '300', value: 300 },
-  { label: '500', value: 500 },
-  { label: '1K', value: 1000 },
-  { label: '2K', value: 2000 },
-  { label: '3K', value: 3000 },
-  { label: '5K', value: 5000 },
-]
+import { savePhone } from '@/lib/payment-session'
 
 const heroStats = [
-  { icon: Zap, value: '5 min', label: 'KELULUSAN' },
+  { icon: Zap, value: '1 min', label: 'BAYARAN' },
   { icon: Users, value: '50K+', label: 'PELANGGAN' },
   { icon: Star, value: '4.8', label: 'PENILAIAN' },
 ]
 
 export function Hero() {
-  const [amount, setAmount] = useState(1000)
-
   return (
     <section
       id="mohon"
@@ -55,16 +49,14 @@ export function Hero() {
           </div>
 
           <h1 className="mt-3 text-balance text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-            Dapatkan Sehingga <span className="text-orange">RM 5,000</span> Hari
-            Yang Sama Pinjaman ke{' '}
-            <span className="text-green">Akaun Bank Anda</span>
+            Bayar Balik <span className="text-orange">Pinjaman Anda</span> Dengan{' '}
+            <span className="text-green">Mudah &amp; Selamat</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty leading-relaxed text-white/70">
-            Kelulusan pantas dalam masa 5 minit sahaja. Tiada yuran tersembunyi,
-            tiada kertas kerja yang rumit. Dapatkan wang tunai yang anda perlukan
-            hari ini dengan pemberi pinjaman dalam talian yang paling dipercayai
-            di Malaysia.
+            Log masuk, isikan butiran anda, dan selesaikan bayaran balik pinjaman
+            anda dalam beberapa minit menggunakan DuitNow QRPay. Tiada yuran
+            tersembunyi, pengesahan segera, resit automatik.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-8">
@@ -89,13 +81,13 @@ export function Hero() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href="#kalkulator"
+            <Link
+              href="/login"
               className="inline-flex items-center gap-2 rounded-full bg-orange px-7 py-3.5 text-sm font-bold text-navy shadow-lg shadow-orange/20 transition-transform hover:scale-[1.02]"
             >
-              MOHON SEKARANG
+              LOG MASUK UNTUK BAYAR
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
             <a
               href="#cara"
               className="inline-flex items-center gap-2 text-sm font-semibold text-white/90 transition-colors hover:text-orange"
@@ -106,27 +98,23 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right: loan calculator */}
-        <LoanCalculator
-          amount={amount}
-          setAmount={setAmount}
-          presets={presets}
-        />
+        {/* Right: quick login card */}
+        <LoginCard />
       </div>
     </section>
   )
 }
 
-function LoanCalculator({
-  amount,
-  setAmount,
-  presets,
-}: {
-  amount: number
-  setAmount: (v: number) => void
-  presets: { label: string; value: number }[]
-}) {
-  const format = (n: number) => `RM ${n.toLocaleString('en-US')}`
+function LoginCard() {
+  const router = useRouter()
+  const [phone, setPhone] = useState('')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!phone.trim()) return
+    savePhone(`+60${phone.replace(/^0+/, '')}`)
+    router.push('/borang')
+  }
 
   return (
     <div
@@ -135,93 +123,65 @@ function LoanCalculator({
     >
       <div className="flex items-center gap-3">
         <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-navy text-orange">
-          <Zap className="h-5 w-5" />
+          <Wallet className="h-5 w-5" />
         </span>
         <div>
           <h3 className="text-lg font-bold text-foreground">
-            Kalkulator Pinjaman
+            Log Masuk Pelanggan
           </h3>
           <p className="text-sm text-muted-foreground">
-            Dapatkan pengiraan segera
+            Masukkan nombor telefon anda
           </p>
         </div>
       </div>
 
       <div className="mt-6 rounded-2xl bg-secondary p-5 text-center">
         <div className="text-xs font-semibold tracking-wide text-muted-foreground">
-          JUMLAH PINJAMAN
+          PORTAL BAYARAN BALIK
         </div>
-        <div className="mt-1 text-4xl font-extrabold text-navy">
-          {format(amount)}
-        </div>
+        <div className="mt-1 text-2xl font-extrabold text-navy">DuitJom Pay</div>
         <div className="mt-1 text-xs text-muted-foreground">
-          RM 300 - RM 5,000
+          Selesaikan bayaran pinjaman anda
         </div>
       </div>
 
-      <div className="mt-6">
-        <input
-          type="range"
-          min={300}
-          max={5000}
-          step={100}
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          aria-label="Loan amount slider"
-          className="h-2 w-full cursor-pointer appearance-none rounded-full bg-secondary accent-orange"
-          style={{
-            background: `linear-gradient(to right, var(--orange) 0%, var(--orange) ${
-              ((amount - 300) / (5000 - 300)) * 100
-            }%, var(--secondary) ${
-              ((amount - 300) / (5000 - 300)) * 100
-            }%, var(--secondary) 100%)`,
-          }}
-        />
-      </div>
-
-      <div className="mt-5 grid grid-cols-6 gap-2">
-        {presets.map((p) => (
-          <button
-            key={p.value}
-            onClick={() => setAmount(p.value)}
-            className={`rounded-lg py-2 text-xs font-semibold transition-colors ${
-              amount === p.value
-                ? 'bg-navy text-white'
-                : 'bg-secondary text-muted-foreground hover:bg-border'
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-6">
-        <label className="text-xs font-semibold tracking-wide text-muted-foreground">
-          Mulakan Permohonan Anda
+      <form onSubmit={handleSubmit} className="mt-6">
+        <label
+          htmlFor="hero-phone"
+          className="text-xs font-semibold tracking-wide text-muted-foreground"
+        >
+          Nombor Telefon
         </label>
         <div className="mt-2 flex items-stretch overflow-hidden rounded-xl ring-1 ring-border focus-within:ring-2 focus-within:ring-orange">
           <span className="flex items-center bg-secondary px-3 text-sm font-semibold text-foreground">
             +60
           </span>
           <input
+            id="hero-phone"
             type="tel"
+            inputMode="numeric"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
             placeholder="123456789"
             className="w-full px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
-      </div>
 
-      <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-green py-3.5 text-sm font-bold text-white shadow-lg shadow-green/25 transition-colors hover:bg-green-dark">
-        MOHON SEKARANG
-        <ArrowRight className="h-4 w-4" />
-      </button>
+        <button
+          type="submit"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-green py-3.5 text-sm font-bold text-white shadow-lg shadow-green/25 transition-colors hover:bg-green-dark"
+        >
+          <LogIn className="h-4 w-4" />
+          LOG MASUK
+        </button>
+      </form>
 
       <p className="mt-3 text-center text-xs text-muted-foreground">
         Data anda dilindungi dengan keselamatan gred bank
       </p>
 
       <div className="mt-4 grid gap-2 border-t border-border pt-4 text-xs sm:grid-cols-3">
-        {['Tiada yuran tersembunyi', 'Kelulusan 5 minit', 'Pemindahan hari yang sama'].map(
+        {['Tiada yuran tersembunyi', 'Pengesahan segera', 'DuitNow QRPay'].map(
           (item) => (
             <div key={item} className="flex items-center gap-1.5 text-foreground">
               <CheckCircle2 className="h-4 w-4 shrink-0 text-green" />

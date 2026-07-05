@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import {
   ArrowRight,
   Briefcase,
@@ -63,13 +64,13 @@ export function CashCta() {
               ))}
             </div>
 
-            <a
-              href="#mohon"
+            <Link
+              href="/login"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-orange px-7 py-3.5 text-sm font-bold text-navy shadow-lg shadow-orange/20 transition-transform hover:scale-[1.02]"
             >
-              DAPATKAN PINJAMAN ANDA SEKARANG
+              LOG MASUK UNTUK BAYAR
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
 
             <div className="mt-6 flex flex-wrap gap-5">
               <span className="flex items-center gap-2 text-sm text-white/80">

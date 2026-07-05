@@ -10,9 +10,9 @@ const jakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'DuitJom - Pinjaman Peribadi Dalam Talian Pantas & Selamat',
+  title: 'DuitJom Pay - Portal Bayaran Balik Pinjaman',
   description:
-    'Dapatkan sehingga RM 5,000 pinjaman ke akaun bank anda hari yang sama. Kelulusan pantas dalam 5 minit, tiada yuran tersembunyi. Berlesen oleh Bank Negara Malaysia.',
+    'Bayar balik pinjaman anda dengan mudah dan selamat menggunakan DuitNow QRPay. Log masuk, isikan butiran, dan selesaikan bayaran dalam beberapa minit. Berlesen oleh Bank Negara Malaysia.',
   generator: 'v0.app',
 }
 
